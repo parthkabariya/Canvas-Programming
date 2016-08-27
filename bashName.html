@@ -1,0 +1,181 @@
+<html>
+<head>
+	<title>boom</title>
+	<style type="text/css">
+		#canvas{
+			background-color:black;
+		}
+	</style>
+
+	<script type="application/javascript">
+
+	function firework(xpos,ypos,c,w,h){
+		var particlesFire={};
+	    var particleFireIndex=0; 
+	    var particlenumFire= 50;  
+
+    function particleFire(){
+    	this.count1 = 0;
+        this.x=xpos;
+        this.y=ypos;
+        this.vxFire=Math.random()* 10-5;
+        this.vyFire=Math.random()* 10-5;
+        this.xx = xpos;
+        this.yy = ypos;
+        particleFireIndex++;
+        particlesFire[particleFireIndex]=this;
+        this.id=particleFireIndex;
+        this.life = 0;
+        this.maxLife = Math.random() *30 + 35;
+            }
+          var gravity = 0.05;
+          var boolean1 = false;
+          while(!boolean1){
+          this.r = Math.random()*6;
+          if(this.r >= 3 && this.r <=6 ){
+           var radius = this.r;
+           boolean1 = true;
+       }
+       var color = "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+",0.5)";
+       this.alpha = Math.random()*.5+.5;
+
+   }
+   
+
+    particleFire.prototype.draw= function(){
+         
+        this.x += this.vxFire;
+        this.y += this.vyFire;
+        this.vyFire += gravity;
+        this.alpha += 1000; 
+        
+        this.life++;
+        if(this.life>this.maxLife)
+        {	 
+        	 c.fillStyle = "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+",0.5)";
+	        c.font = "100px Chiller";
+	        c.fillText("Welcome", xpos - 100, ypos + 90); 
+            delete particlesFire[this.id];
+
+        }
+        c.save();
+        c.fillStyle= color;
+        c.globalAlpha = this.alpha;
+        c.beginPath();
+        c.arc(this.x,this.y,radius,0,Math.PI*2);
+        c.fill();
+        c.closePath();
+        c.restore();
+        this.count1++;
+ 
+    }
+    		for (var i=0; i<particlenumFire; i++){
+            new particleFire();
+            }
+
+          var out = setInterval(function(){
+           	c.globalCompositeOperation = 'source-over';
+            c.fillStyle = "rgba(0,0,0,0.07)";
+            c.fillRect(0, 0, w, h);
+            c.globalCompositeOperation = 'lighter';
+            for (var i in particlesFire){particlesFire[i].draw();}
+            },10);
+	};
+			
+			window.onload = function(){
+				var canvas= document.getElementById('canvas');
+				var	c = canvas.getContext("2d");
+				var w = canvas.width = window.innerWidth;
+				var h = canvas.height = window.innerHeight,
+					particles = {};
+					particleIndex = 0;
+					particlenum = 50;
+
+					function particle(){
+					this.posX = Math.random()*w/2+400;
+					this.posY = h;
+					this.vx = (Math.random()*5)-3;
+					this.vy = -1*(Math.random()*5)+1;
+					this.vyy = this.vy;
+					this.vxx  = this.vx;
+					this.posYY = h;
+					this.posXX = this.posX;
+					particleIndex++;
+					particles[particleIndex] = this;
+					this.id = particleIndex;
+					this.life = 0;
+					this.maxLife = Math.random() *40 +80;
+					}
+				
+					particle.prototype.draw= function(){
+					  	if(this.posY <= 100){
+							while(this.posYY >= 100)
+							{
+						     c.beginPath();
+				             c.globalCompositeOperation = 'source-over';
+				             c.fillStyle = "rgba(0,0,0,10)";
+				             c.arc(this.posXX,this.posYY, 4, 0, Math.PI*2);
+				             c.fill();
+				             c.globalCompositeOperation = 'lighter';
+				             c.closePath();
+			             
+						     this.posYY -= this.vyy;
+							 this.posXX += this.vxx;
+							 this.vyy += 0.100;
+					  		}
+					  		firework(this.posXX,100,c,w,h);
+					  		delete particles[this.id];
+
+					  	}
+
+						if(this.posY <= 670){
+
+			             c.beginPath();
+			             c.globalCompositeOperation = 'source-over';
+			             c.fillStyle = "rgba(0,0,0,0.98)";
+			             c.arc(this.posXX,this.posYY, 4, 0, Math.PI*2);
+			             c.fill();
+			             c.globalCompositeOperation = 'lighter';
+			             c.closePath();
+			             
+						    this.posYY -= this.vyy;
+							this.posXX += this.vxx;
+							this.vyy += 0.100;
+						}
+
+						c.beginPath();
+						c.fillStyle="rgb("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+")";
+			            c.arc(this.posX,this.posY, 3, 0, Math.PI*2);
+			            c.fill();
+			            c.closePath();
+
+						this.posX += this.vx;
+						this.posY -= this.vy;
+						this.vy += 0.100;
+			  		}
+
+			  		var count = 0;
+			  		var timeOutId;
+			  		var i=1;
+			  		for(var i = 0; i<particlenum; i++){
+			  			new particle();
+			  		}					
+					
+					timeOutId = setInterval(function(){
+				  		
+						for(var i in particles){particles[i].draw();}
+							count++;
+						
+						i++;
+					},10);
+
+			};
+	</script>
+</head>
+
+<body>
+	<div >
+		<canvas id="canvas"></canvas>
+	</div>
+</body>
+</html>
