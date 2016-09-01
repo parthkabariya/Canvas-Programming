@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Heart beat</title>
+	<style type="text/css">
+		#canvas{
+			background-color: black;
+		}
+	</style>
+
+	<script type="application/javascript">
+		window.onload =function(){
+			var canvas = document.getElementById("canvas");
+			var c = canvas.getContext('2d');
+			var w = canvas.width = window.innerWidth;
+			var h = canvas.height = window.innerHeight;	
+			var posx = 1;
+			var	posy = h/2;
+			var EmptyPulse = 1;
+			var beatposx = 0;
+			var beatposy = 0;
+			var heartbeat = false;
+			var count = 0;
+			var EmptyPulse = 1;
+			var posxForE = false;
+			var gravity = 0.1;
+
+			
+			document.getElementById("canvas").addEventListener("click",function(){
+				heartbeat = true;
+			});
+
+			//console.log("1" + heartbeat);
+			var timeout1 = setInterval(function(){
+				if(heartbeat == true){
+					if(posx <= (beatposx + 7)){
+						Living();
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;
+						posy -= 1;
+
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 7) && posx < (beatposx + 14) && posy != beatposy){
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;
+						posy += 1;
+
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx >= (beatposx + 14) && posx <= (beatposx + 30)){
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;		
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 30) && posx <= (beatposx + 40)){
+						c.fillStyle = "green";
+						c.fillRect(posx,posy,1,1);
+						posx += 1;
+						posy += 1;
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 40) && posx < (beatposx + 50)){
+						c.fillStyle = "green";
+						c.fillRect(posx,posy,1,1);
+						posx += 0.1;
+						posy -= 1;
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 50) && posx < (beatposx + 58) && posy != beatposy){
+						c.fillStyle = "green";
+						c.fillRect(posx,posy,1,1);
+						posx += 0.1;
+						posy += 1;
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 58) && posx <= (beatposx + 68)){
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;		
+						if(posxForE == true){
+							FnEmptyPluse();
+						};
+					}
+
+					if(posx > (beatposx + 68) && posx <= (beatposx + 75)){
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;
+						posy -= 1;
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 75) && posx <= (beatposx + 82) && posy != beatposy){
+						c.fillStyle = "green";
+						c.fillRect(posx, posy, 1, 1);
+						posx += 1;
+						posy += 1;
+						if(posxForE == true){
+							FnEmptyPluse();
+						}
+					}
+
+					else if(posx > (beatposx + 82)){
+						heartbeat = false;
+					}
+				}
+
+				else{
+					c.fillStyle = "black";
+					c.fillRect(((w/2)-250), h-70,500,100);
+					c.fillStyle = "red";
+					c.font = "20px Arial";
+					c.fillText("you are dying, click for living", ((w/2)-250), h-50);
+
+					c.fillStyle = "green";
+					c.fillRect(posx, posy, 1, 1);
+					posx += 1;
+					beatposx = posx;
+					beatposy = posy;
+
+					if(posx >= (w-50))
+						posxForE = true;
+					if(posxForE == true){
+						FnEmptyPluse();
+					}
+
+					if(posx >= (w-10)){
+						posx = 1;
+					}	
+				}
+
+			function FnEmptyPluse(){
+				c.fillStyle = "black";
+				c.fillRect(EmptyPulse, (h/2)-100, 5,200);
+				if(heartbeat == true)
+					EmptyPulse += 0.40;
+				else
+					EmptyPulse += 1;
+				if(EmptyPulse >= (w+10)){
+					EmptyPulse = 1;
+				}
+			};
+
+			function Living(){
+				c.fillStyle = "black";
+				c.fillRect(((w/2)-250), h-70,500,100);
+				c.fillStyle = "red";
+				c.font = "20px Arial";
+				c.fillText("you are safe, Now", ((w/2)-250), h-50);
+			};
+		},5);
+			
+
+		};
+			
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+</html>
