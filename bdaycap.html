@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Birthday cap</title>
+	<style type="text/css">
+		#canvas{
+			background-color: "#587cf1";
+		}
+		body,html{
+			margin: 0px;
+			padding: 0px;
+			background-color: "#587cf1";
+		}
+	</style>
+	<script type="application/javascript">
+		window.onload = function(){
+			var canvas = document.getElementById("canvas");
+			var c = canvas.getContext('2d');
+			var w = canvas.width = window.innerWidth;
+			var h = canvas.height = window.innerHeight;	
+			var degree = 1,
+				degree1 = 1;
+			var cap_image = new Image();
+				cap_image.src = "birthday_cap.png";
+
+
+			c.fillStyle = "#587cf1";
+			c.fillRect(-w/2,-h/2,2*w,2*h);
+
+			function Fire(TW,TH){
+				var fire={};
+					fireIndex = 0,
+					fireNum = 5,
+					Life = 0;
+					maxLife = 50;
+					degree1++;
+
+				function particle(){
+					fireIndex++;
+					fire[fireIndex] = this;
+					this.id = fireIndex;
+					this.x = TW+25;
+					this.y = TH+75;
+					this.vx = Math.random()*3-1;
+					this.vy = 2;
+
+				}
+
+				var color = "rgba("+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+","+parseInt(Math.random()*255)+",0.5)";
+
+				particle.prototype.draw = function() {
+					this.x += this.vx;
+					this.y += this.vy;
+					Life++;
+					if(Life>maxLife)
+						delete fire[this.id];
+					c.save();
+					c.translate(TW, TH);
+	            	c.rotate(degree1*(Math.PI / 180));
+	            	c.beginPath();
+	            	c.fillStyle = "black";
+	            	c.moveTo(0,0);
+	            	c.lineTo(this.x,this.y);
+					
+					c.restore();
+					c.fillStyle = color;
+					c.fillRect(this.x,this.y,1,1);
+					if(degree1 >= 360)
+						degree1 = 0;
+				};
+
+				for(var i=0; i<fireNum; i++){
+					new particle();
+				}
+
+				setInterval(function(){
+					for(var i in fire){
+						
+	           			fire[i].draw();
+	           			
+	           		}
+				},20);
+			}
+
+			function Rotation(TW, TH){
+				setInterval(function(){
+					c.save();
+					c.translate(TW, TH);
+	            	c.rotate(degree*(Math.PI / 180));
+	            	degree++;
+	           		c.drawImage(cap_image, -50, -75, 100,150);
+	           		Fire(TW,TH);
+	            	c.restore();
+					if(degree >= 360)
+						degree = 0;
+				},10);
+			};
+
+			Rotation(w/2, h/2);
+			Rotation(100,100);
+			Rotation(w-100, h-100);
+			Rotation(w-100, 100);
+			Rotation(100, h-100);
+			Rotation(w/4, h/2);
+			Rotation((w/2)+(w/4), h/2);
+			Rotation(w/2, 100);
+			Rotation(w/2, h-100);
+
+		};
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+</body>
+</html>
